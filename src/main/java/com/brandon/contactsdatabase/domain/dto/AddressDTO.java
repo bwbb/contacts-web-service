@@ -17,7 +17,12 @@ public class AddressDTO implements Serializable {
 
 	private String zip;
 
+	public AddressDTO() {}
+
 	public AddressDTO(Address address) {
+		if ( address == null ) {
+			return;
+		}
 		BeanUtils.copyProperties( address, this );
 	}
 
