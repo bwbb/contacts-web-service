@@ -1,6 +1,8 @@
 package com.brandon.contactsdatabase.domain.jpa;
 
+import com.brandon.contactsdatabase.domain.dto.PhoneDTO;
 import com.brandon.contactsdatabase.domain.enumeration.PhoneType;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,9 +29,8 @@ public class Phone implements Serializable {
 	@Column(name = "PHONE_ID")
 	private Long phoneId;
 
-
 	@ManyToOne(optional = false, targetEntity = Person.class, cascade = { CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH })
-	@JoinColumn(name = "PERSON_ID", referencedColumnName = "PERSON_ID", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "PERSON_ID", referencedColumnName = "PERSON_ID", nullable = false)
 	private Person person;
 
 	@Column(name = "NUMBER")
@@ -37,6 +38,18 @@ public class Phone implements Serializable {
 
 	@Column(name = "TYPE")
 	private PhoneType type;
+
+	public Phone() {
+	}
+
+	public Phone(PhoneDTO phone, Person person) {
+		if ( phone == null || person == null ) {
+			return;
+		}
+		BeanUtils.copyProperties( phone, this );
+		this.person = person;
+	}
+
 
 	public Long getPhoneId() {
 		return phoneId;

@@ -1,5 +1,8 @@
 package com.brandon.contactsdatabase.domain.jpa;
 
+import com.brandon.contactsdatabase.domain.dto.ContactDTO;
+import com.brandon.contactsdatabase.domain.enumeration.PhoneType;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -35,14 +38,21 @@ public class Person implements Serializable {
 	@Column(name = "EMAIL")
 	private String email;
 
-
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "PERSON_ID", referencedColumnName = "PERSON_ID", nullable = false)
 	private Address address;
 
-
 	@OneToMany(mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH }, targetEntity = Phone.class)
-	private List<Phone> phone = new ArrayList<>();
+	private List<Phone> phones = new ArrayList<>();
+
+	public Person() {
+	}
+
+	public Person(ContactDTO contact) {
+		this.name = contact.getName();
+		this.email = contact.getEmail();
+		this.address = new Address( contact.getAddress(), this );
+	}
 
 
 	public Long getPersonId() {
@@ -77,11 +87,17 @@ public class Person implements Serializable {
 		this.address = address;
 	}
 
-	public List<Phone> getPhone() {
-		return phone;
+	public List<Phone> getPhones() {
+		return phones;
 	}
 
-	public void setPhone(List<Phone> phone) {
-		this.phone = phone;
+	public void setPhones(List<Phone> phone) {
+		this.phones = phone;
+	}
+
+	public Phone getPhoneByType(PhoneType phoneType) {
+		return this.phones.stream()
+				.filter( phone -> phone.getType() == phoneType )
+				.findFirst().orElse( null );
 	}
 }
