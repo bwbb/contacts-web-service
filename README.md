@@ -1,7 +1,7 @@
 
 # Contacts Web Service
 
-The REST API is able to perform all of the operations in the given instructions
+The REST API is able to perform all of the operations in the given instructions.
 
 The application includes a built-in H2 database, and the contact from the provided example ("Harold Francis Gilkey") is stored with ID `1001`. 
 
