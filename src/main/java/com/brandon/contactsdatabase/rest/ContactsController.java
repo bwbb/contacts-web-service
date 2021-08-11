@@ -1,5 +1,6 @@
 package com.brandon.contactsdatabase.rest;
 
+import com.brandon.contactsdatabase.domain.dto.CallableContactDTO;
 import com.brandon.contactsdatabase.domain.dto.ContactDTO;
 import com.brandon.contactsdatabase.service.interfaces.ContactsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class ContactsController {
 	}
 
 	@GetMapping("/call-list")
-	public List<ContactDTO> getCallList() {
+	public List<CallableContactDTO> getCallList() {
 		return contactsService.getCallList();
 	}
 }

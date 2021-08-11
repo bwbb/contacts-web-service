@@ -1,5 +1,6 @@
 package com.brandon.contactsdatabase.service.interfaces;
 
+import com.brandon.contactsdatabase.domain.dto.CallableContactDTO;
 import com.brandon.contactsdatabase.domain.dto.ContactDTO;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface ContactsService {
 
 	void deleteById(long contactId);
 
-	List<ContactDTO> getCallList();
+	List<CallableContactDTO> getCallList();
 }

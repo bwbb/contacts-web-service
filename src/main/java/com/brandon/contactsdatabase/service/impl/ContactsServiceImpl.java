@@ -1,8 +1,10 @@
 package com.brandon.contactsdatabase.service.impl;
 
 import com.brandon.contactsdatabase.domain.dao.PersonDAO;
+import com.brandon.contactsdatabase.domain.dto.CallableContactDTO;
 import com.brandon.contactsdatabase.domain.dto.ContactDTO;
 import com.brandon.contactsdatabase.domain.dto.PhoneDTO;
+import com.brandon.contactsdatabase.domain.enumeration.PhoneType;
 import com.brandon.contactsdatabase.domain.jpa.Address;
 import com.brandon.contactsdatabase.domain.jpa.Person;
 import com.brandon.contactsdatabase.domain.jpa.Phone;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,6 +25,11 @@ import java.util.stream.Collectors;
 public class ContactsServiceImpl implements ContactsService {
 
 	private static final Logger LOG = LoggerFactory.getLogger( ContactsServiceImpl.class );
+
+	private static final Sort CALL_LIST_SORT = Sort.by(
+		Sort.Order.asc("name.last"),
+		Sort.Order.asc("name.first")
+	);
 
 	@Autowired
 	private PersonDAO personDAO;
@@ -108,7 +116,10 @@ public class ContactsServiceImpl implements ContactsService {
 	}
 
 	@Override
-	public List<ContactDTO> getCallList() {
-		return null;
+	public List<CallableContactDTO> getCallList() {
+		return personDAO.findAll( CALL_LIST_SORT ).stream()
+				.filter( person -> person.getPhoneByType( PhoneType.HOME ) != null )
+				.map( CallableContactDTO::new )
+				.collect( Collectors.toList() );
 	}
 }
