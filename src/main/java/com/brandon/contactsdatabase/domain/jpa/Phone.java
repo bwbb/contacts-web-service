@@ -42,6 +42,10 @@ public class Phone implements Serializable {
 	public Phone() {
 	}
 
+	public Phone(String number, PhoneType type) {
+		this.type = type;
+	}
+
 	public Phone(PhoneDTO phone, Person person) {
 		if ( phone == null || person == null ) {
 			return;

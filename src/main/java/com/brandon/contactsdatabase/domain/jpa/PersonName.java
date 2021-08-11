@@ -17,6 +17,15 @@ public class PersonName implements Serializable {
 	@Column(name = "LAST_NAME")
 	private String last;
 
+	public PersonName() {
+	}
+
+	public PersonName(String first, String middle, String last) {
+		this.first = first;
+		this.middle = middle;
+		this.last = last;
+	}
+
 
 	public String getFirst() {
 		return first;

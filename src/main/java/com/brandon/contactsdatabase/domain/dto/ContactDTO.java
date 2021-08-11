@@ -36,7 +36,9 @@ public class ContactDTO implements Serializable {
 
 		this.id = person.getPersonId();
 		this.name = person.getName();
-		this.address = new AddressDTO( person.getAddress() );
+		if ( person.getAddress() != null ) {
+			this.address = new AddressDTO( person.getAddress() );
+		}
 
 		this.phone = person.getPhones().stream()
 				.map( PhoneDTO::new )

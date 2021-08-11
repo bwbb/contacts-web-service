@@ -26,7 +26,7 @@ public class ContactsServiceImpl implements ContactsService {
 
 	private static final Logger LOG = LoggerFactory.getLogger( ContactsServiceImpl.class );
 
-	private static final Sort CALL_LIST_SORT = Sort.by(
+	protected static final Sort CALL_LIST_SORT = Sort.by(
 		Sort.Order.asc("name.last"),
 		Sort.Order.asc("name.first")
 	);
